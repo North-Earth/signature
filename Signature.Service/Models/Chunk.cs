@@ -11,4 +11,6 @@ public class Chunk
         Id = id;
         Bytes = bytes;
     }
+
+    public override string ToString() => $"ChunkId: {Id}";
 }
