@@ -1,3 +1,5 @@
+namespace Signature.Service.Models;
+
 public class LaunchConfiguration
 {
     public string FilePath { get; }

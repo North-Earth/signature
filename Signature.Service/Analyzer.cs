@@ -1,3 +1,5 @@
+using Signature.Service.Models;
+
 namespace Signature.Service;
 
 internal static class Analyzer

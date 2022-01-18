@@ -31,7 +31,6 @@ public static class Reader
         }
         finally
         {
-            System.Console.WriteLine($"Поток {Thread.CurrentThread.Name} завершает работу.");
             resetEvent.Set();
         }
     }

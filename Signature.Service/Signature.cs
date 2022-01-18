@@ -7,7 +7,7 @@ namespace Signature.Service;
 
 public class Signature
 {
-    public delegate void SignatureChunkHandler(object? sender, EventArgs e);
+    public event EventHandler<HashChunkEventArgs>? HashedChunkHandler;
 
     public void Run(string path, int chunkSize, int maxBufferSize = 512)
     {
@@ -19,6 +19,7 @@ public class Signature
             {
                 using (var threadPool = new ThreadPool(launchConfiguration, conveyor))
                 {
+                    Hasher.HashedChunkHandler += OnHashedChunk;
                     threadPool.Threads.ToList().ForEach(thread => thread?.Start());
 
                     WaitHandle.WaitAll(threadPool.ResetEvents);
@@ -33,4 +34,6 @@ public class Signature
             throw;
         }
     }
+
+    public void OnHashedChunk(object? sender, HashChunkEventArgs e) => HashedChunkHandler?.Invoke(this, e);
 }

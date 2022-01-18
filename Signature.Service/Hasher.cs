@@ -1,7 +1,11 @@
+using Signature.Service.Models;
+
 namespace Signature.Service;
 
 public static class Hasher
 {
+    public static event EventHandler<HashChunkEventArgs>? HashedChunkHandler;
+
     public static void StartHashProcess(ReadFileConveyor conveyor, AutoResetEvent resetEvent)
     {
         try
@@ -15,7 +19,7 @@ public static class Hasher
                 if (chunk != null)
                 {
                     var hash = HashChunk.GetHash(chunk);
-                    System.Console.WriteLine(hash.ToString());
+                    HashedChunkHandler?.Invoke(null, new HashChunkEventArgs(hash.Id, hash.HexadecimalValue));
                 }
             }
         }
@@ -25,9 +29,7 @@ public static class Hasher
         }
         finally
         {
-            System.Console.WriteLine($"Поток {Thread.CurrentThread.Name} завершает работу.");
             resetEvent.Set();
         }
-
     }
 }
