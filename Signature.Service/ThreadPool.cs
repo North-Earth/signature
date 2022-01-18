@@ -2,28 +2,27 @@ using Signature.Service.Models;
 
 namespace Signature.Service;
 
-internal class ThreadPool
+internal class ThreadPool : IDisposable
 {
     internal Thread[] Threads { get; }
 
     internal AutoResetEvent[] ResetEvents { get; }
 
-    internal ThreadPool(string path, int chunkSize, int processorCount = 3)
+    internal ThreadPool(LaunchConfiguration configuration, ReadFileConveyor conveyor)
     {
-        var conveyor = new ReadFileConveyor();
-        var threadCount = processorCount < 2 ? 2 : processorCount;
+        Threads = new Thread[configuration.ThreadCount];
+        ResetEvents = new AutoResetEvent[configuration.ThreadCount];
 
-        Threads = new Thread[threadCount];
-        ResetEvents = new AutoResetEvent[threadCount];
-
-        for (int i = 0; i < threadCount; i++)
+        for (int i = 0; i < configuration.ThreadCount; i++)
         {
             ResetEvents[i] = new AutoResetEvent(false);
             var resetEvent = ResetEvents[i];
 
             if (i == 0)
             {
-                Threads[i] = new Thread(() => Reader.StartReadProcess(path, chunkSize, conveyor, resetEvent, 200))
+                Threads[i] = new Thread(()
+                    => Reader.StartReadProcess(configuration.FilePath, configuration.ChunkSize,
+                    conveyor, resetEvent, configuration.ChunkBufferSize))
                 {
                     Name = $"Reader Thread #{i}",
                 };
@@ -34,6 +33,15 @@ internal class ThreadPool
             {
                 Name = $"Hasher Thread #{i}",
             };
+        }
+
+    }
+
+    public void Dispose()
+    {
+        for (int i = 0; i < ResetEvents.Count(); i++)
+        {
+            ResetEvents[i].Dispose();
         }
     }
 }
