@@ -5,7 +5,7 @@ namespace Signature.Service;
 public static class Reader
 {
     public static void StartReadProcess(string path, int chunkSize,
-        ReadFileConveyor conveyor, AutoResetEvent resetEvent, int maxBufferSize = 200)
+        ReadFileConveyor conveyor, AutoResetEvent resetEvent, int maxBufferSize)
     {
         try
         {
@@ -16,17 +16,10 @@ public static class Reader
 
                 while (stream.Read(buffer, 0, buffer.Length) > 0)
                 {
-                    if (conveyor.StackCount < maxBufferSize)
-                    {
-                        var chunk = new Chunk(chunkId++, buffer.ToArray());
-                        conveyor.PushChunk(chunk);
-                    }
-                    else
-                    {
-                        System.Console.WriteLine($"Поток {Thread.CurrentThread.Name} в режиме ожидания.");
+                    conveyor.BufferFreeEvent.WaitOne(500);
 
-                        Thread.Sleep(250);
-                    }
+                    var chunk = new Chunk(chunkId++, buffer.ToArray());
+                    conveyor.EnqueueChunk(chunk);
                 }
 
                 conveyor.ReadComplited();
@@ -38,6 +31,7 @@ public static class Reader
         }
         finally
         {
+            System.Console.WriteLine($"Поток {Thread.CurrentThread.Name} завершает работу.");
             resetEvent.Set();
         }
     }

@@ -8,24 +8,18 @@ public static class Hasher
         {
             while (!conveyor.IsComplited)
             {
-                if (conveyor.HasAnyChunk)
-                {
-                    var chunk = conveyor.DequeueChunk();
+                conveyor.AnyChunkEvent.WaitOne(500);
 
-                    if (chunk != null)
-                    {
-                        var hash = HashChunk.GetHash(chunk);
-                        System.Console.WriteLine(hash.ToString());
-                    }
-                }
-                else
+                var chunk = conveyor.DequeueChunk();
+
+                if (chunk != null)
                 {
-                    System.Console.WriteLine($"Поток {Thread.CurrentThread.Name} в режиме ожидания.");
-                    Thread.Sleep(250);
+                    var hash = HashChunk.GetHash(chunk);
+                    System.Console.WriteLine(hash.ToString());
                 }
             }
         }
-        catch (System.Exception ex)
+        catch (System.Exception)
         {
             throw;
         }
