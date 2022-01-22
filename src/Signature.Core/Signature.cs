@@ -1,19 +1,26 @@
-using System.Text;
 using Signature.Core.Models;
-using System.Collections.Concurrent;
-using System.Threading.Tasks;
 
 namespace Signature.Core;
 
 public class Signature
 {
+    /// <summary>
+    /// Return the number of the part and the hash as it is executed.
+    /// </summary>
     public event EventHandler<HashChunkEventArgs>? HashedChunkHandler;
 
-    public void Run(string path, int chunkSize, int maxBufferSize = 512)
+    /// <summary>
+    /// Splits the file into parts and calculates their hash using SHA 256.
+    /// Returns the result as it is executed via an event HashedChunkHandler.
+    /// </summary>
+    /// <param name="path">Source file path.</param>
+    /// <param name="chunkSize">Chunk size of the source file in bytes for SHA256.</param>
+    /// <param name="memoryBufferLimit">Memory buffer limit in megabytes.</param>
+    public void Run(string path, int chunkSize, int memoryBufferLimit = 512)
     {
         try
         {
-            var launchConfiguration = Analyzer.GetLaunchConfiguration(path, chunkSize, maxBufferSize);
+            var launchConfiguration = Analyzer.GetLaunchConfiguration(path, chunkSize, memoryBufferLimit);
 
             using (var conveyor = new ReadFileConveyor(launchConfiguration.ChunkBufferSize))
             {
@@ -25,12 +32,9 @@ public class Signature
                     WaitHandle.WaitAll(threadPool.ResetEvents);
                 }
             }
-
-            System.Console.WriteLine("Done!");
         }
-        catch (System.Exception)
+        catch (Exception)
         {
-
             throw;
         }
     }

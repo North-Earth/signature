@@ -22,7 +22,7 @@ internal class ThreadPool : IDisposable
             {
                 Threads[i] = new Thread(()
                     => Reader.StartReadProcess(configuration.FilePath, configuration.ChunkSize,
-                    conveyor, resetEvent, configuration.ChunkBufferSize))
+                    conveyor, resetEvent))
                 {
                     Name = $"Reader Thread #{i}",
                 };
@@ -39,7 +39,7 @@ internal class ThreadPool : IDisposable
 
     public void Dispose()
     {
-        for (int i = 0; i < ResetEvents.Count(); i++)
+        for (int i = 0; i < ResetEvents.Length; i++)
         {
             ResetEvents[i].Dispose();
         }

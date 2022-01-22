@@ -4,14 +4,15 @@ namespace Signature.Core;
 
 internal static class Analyzer
 {
-    public static LaunchConfiguration GetLaunchConfiguration(string path, int chunkSize, int bufferMb)
+    public static LaunchConfiguration GetLaunchConfiguration(string path, int chunkSize, int memoryBufferLimit)
     {
         var fileInfo = GetFileInfo(path);
+        var bufferLimitBytes = memoryBufferLimit.ToBytes();
 
-        Validator.CheckChunkSize(chunkSize, fileInfo.Length);
+        Validator.CheckChunkSize(chunkSize, fileInfo.Length, bufferLimitBytes);
 
         var threadCount = GetThreadCount();
-        var chunkBufferSize = GetChunkBuffer(chunkSize, bufferMb);
+        var chunkBufferSize = GetChunkBuffer(chunkSize, bufferLimitBytes);
 
 
         return new LaunchConfiguration(fileInfo.FullName, threadCount, chunkSize, chunkBufferSize);
@@ -25,24 +26,18 @@ internal static class Analyzer
 
             return new FileInfo(path);
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }
     }
 
     public static int GetThreadCount()
-    {
-        return Environment.ProcessorCount > 2 ? Environment.ProcessorCount : 2;
-    }
+        => Environment.ProcessorCount > 2 ? Environment.ProcessorCount : 2;
 
-    public static int GetChunkBuffer(int chunkSize, int bufferMb)
-    {
-        return bufferMb.ToBytes() / chunkSize;
-    }
+    public static int GetChunkBuffer(int chunkSize, long bufferLimit)
+        => (int)(bufferLimit / chunkSize);
 
-    public static int ToBytes(this int mb)
-    {
-        return mb * 1024 * 1024;
-    }
+    public static long ToBytes(this int mb)
+        => mb * 1024 * 1024;
 }

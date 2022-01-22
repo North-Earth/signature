@@ -1,6 +1,6 @@
+using Signature.Core.Models;
 using System.Security.Cryptography;
 using System.Text;
-using Signature.Core.Models;
 
 namespace Signature.Core;
 
@@ -14,7 +14,7 @@ internal static class HashChunk
             {
                 return new Hash(chunk.Id, sha256.ComputeHash(chunk.Bytes).ToHexadecimalString());
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 throw;
             }

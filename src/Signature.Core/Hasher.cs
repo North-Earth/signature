@@ -19,11 +19,11 @@ internal static class Hasher
                 if (chunk != null)
                 {
                     var hash = HashChunk.GetHash(chunk);
-                    HashedChunkHandler?.Invoke(null, new HashChunkEventArgs(hash.Id, hash.HexadecimalValue));
+                    HashedChunkHandler?.Invoke(nameof(StartHashProcess), new HashChunkEventArgs(hash.Id, hash.HexadecimalValue));
                 }
             }
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }

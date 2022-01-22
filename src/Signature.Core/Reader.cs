@@ -5,7 +5,7 @@ namespace Signature.Core;
 internal static class Reader
 {
     public static void StartReadProcess(string path, int chunkSize,
-        ReadFileConveyor conveyor, AutoResetEvent resetEvent, int maxBufferSize)
+        ReadFileConveyor conveyor, AutoResetEvent resetEvent)
     {
         try
         {
@@ -16,7 +16,7 @@ internal static class Reader
 
                 while (stream.Read(buffer, 0, buffer.Length) > 0)
                 {
-                    conveyor.BufferFreeEvent.WaitOne(500);
+                    conveyor.BufferFreeEvent.WaitOne();
 
                     var chunk = new Chunk(chunkId++, buffer.ToArray());
                     conveyor.EnqueueChunk(chunk);
@@ -25,7 +25,7 @@ internal static class Reader
                 conveyor.ReadComplited();
             }
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }
