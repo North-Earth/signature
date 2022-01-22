@@ -47,8 +47,8 @@ public static class Sturtup
 
     public static void ShowHelp()
     {
-        Console.WriteLine("\nUsage: dotnet Signature.Shell.dll [path]");
-        Console.WriteLine("Usage: dotnet Signature.Shell.dll [path] [options]");
+        Console.WriteLine("\nUsage: Signature.Shell [path]");
+        Console.WriteLine("Usage: Signature.Shell [path] [options]");
         Console.WriteLine("\nOptions:");
         Console.WriteLine($"\t {StartupValidator.ShortHelpArg} | {StartupValidator.HelpArg} \t \t \t Display help.");
         Console.WriteLine($"\t {StartupValidator.ChunkSizeArg} [number] \t \t Chunk size of the source file in bytes for SHA256, default = {StartupValidator.ChunkSizeDefault} bytes.");
