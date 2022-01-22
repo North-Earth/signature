@@ -28,7 +28,7 @@ public static class StartupValidator
 
             return new StartupArgs(path, chunkSize, memoryBufferLimit);
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             throw;
         }
