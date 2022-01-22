@@ -1,9 +1,9 @@
 using System.Collections.Concurrent;
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
-public class ReadFileConveyor : IDisposable
+internal class ReadFileConveyor : IDisposable
 {
     public ConcurrentQueue<Chunk> ChunkQueue { get; } = new ConcurrentQueue<Chunk>();
 
@@ -11,9 +11,9 @@ public class ReadFileConveyor : IDisposable
 
     public AutoResetEvent BufferFreeEvent { get; } = new AutoResetEvent(true);
 
-    private int maxBufferSize { get; }
+    public int maxBufferSize { get; }
 
-    private bool IsReadComplited { get; set; }
+    public bool IsReadComplited { get; set; }
 
     public bool IsComplited => (IsReadComplited && ChunkQueue.IsEmpty);
 

@@ -1,6 +1,6 @@
-namespace Signature.Service.Models;
+namespace Signature.Core.Models;
 
-public class Chunk
+internal class Chunk
 {
     public int Id { get; }
 

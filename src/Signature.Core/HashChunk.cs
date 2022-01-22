@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
-public static class HashChunk
+internal static class HashChunk
 {
     public static Hash GetHash(Chunk chunk)
     {
@@ -21,7 +21,7 @@ public static class HashChunk
         }
     }
 
-    private static string ToHexadecimalString(this byte[] bytes)
+    public static string ToHexadecimalString(this byte[] bytes)
     {
         var stringBuilder = new StringBuilder();
 

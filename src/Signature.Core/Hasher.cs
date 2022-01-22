@@ -1,8 +1,8 @@
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
-public static class Hasher
+internal static class Hasher
 {
     public static event EventHandler<HashChunkEventArgs>? HashedChunkHandler;
 

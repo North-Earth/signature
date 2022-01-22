@@ -1,10 +1,10 @@
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
 internal static class Analyzer
 {
-    internal static LaunchConfiguration GetLaunchConfiguration(string path, int chunkSize, int bufferMb)
+    public static LaunchConfiguration GetLaunchConfiguration(string path, int chunkSize, int bufferMb)
     {
         var fileInfo = GetFileInfo(path);
 
@@ -17,7 +17,7 @@ internal static class Analyzer
         return new LaunchConfiguration(fileInfo.FullName, threadCount, chunkSize, chunkBufferSize);
     }
 
-    internal static FileInfo GetFileInfo(string path)
+    public static FileInfo GetFileInfo(string path)
     {
         try
         {
@@ -31,12 +31,12 @@ internal static class Analyzer
         }
     }
 
-    internal static int GetThreadCount()
+    public static int GetThreadCount()
     {
         return Environment.ProcessorCount > 2 ? Environment.ProcessorCount : 2;
     }
 
-    internal static int GetChunkBuffer(int chunkSize, int bufferMb)
+    public static int GetChunkBuffer(int chunkSize, int bufferMb)
     {
         return bufferMb.ToBytes() / chunkSize;
     }

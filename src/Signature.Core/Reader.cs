@@ -1,8 +1,8 @@
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
-public static class Reader
+internal static class Reader
 {
     public static void StartReadProcess(string path, int chunkSize,
         ReadFileConveyor conveyor, AutoResetEvent resetEvent, int maxBufferSize)

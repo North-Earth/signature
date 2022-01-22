@@ -1,14 +1,14 @@
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
 internal class ThreadPool : IDisposable
 {
-    internal Thread[] Threads { get; }
+    public Thread[] Threads { get; }
 
-    internal AutoResetEvent[] ResetEvents { get; }
+    public AutoResetEvent[] ResetEvents { get; }
 
-    internal ThreadPool(LaunchConfiguration configuration, ReadFileConveyor conveyor)
+    public ThreadPool(LaunchConfiguration configuration, ReadFileConveyor conveyor)
     {
         Threads = new Thread[configuration.ThreadCount];
         ResetEvents = new AutoResetEvent[configuration.ThreadCount];

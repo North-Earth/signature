@@ -1,9 +1,9 @@
 using System.Text;
-using Signature.Service.Models;
+using Signature.Core.Models;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
 public class Signature
 {
@@ -35,5 +35,5 @@ public class Signature
         }
     }
 
-    public void OnHashedChunk(object? sender, HashChunkEventArgs e) => HashedChunkHandler?.Invoke(this, e);
+    private void OnHashedChunk(object? sender, HashChunkEventArgs e) => HashedChunkHandler?.Invoke(this, e);
 }

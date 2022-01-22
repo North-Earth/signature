@@ -1,8 +1,8 @@
-namespace Signature.Service;
+namespace Signature.Core;
 
 internal static class Validator
 {
-    internal static void RunValidation(string path)
+    public static void RunValidation(string path)
     {
         if (!File.Exists(path))
         {
@@ -10,7 +10,7 @@ internal static class Validator
         }
     }
 
-    internal static void CheckFileExists(string path)
+    public static void CheckFileExists(string path)
     {
         if (!File.Exists(path))
         {
@@ -18,7 +18,7 @@ internal static class Validator
         }
     }
 
-    internal static void CheckChunkSize(int chunkSize, long fileSize)
+    public static void CheckChunkSize(int chunkSize, long fileSize)
     {
         if (chunkSize < 1)
         {
