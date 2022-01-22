@@ -24,9 +24,10 @@ public static class Sturtup
         }
     }
 
-    public static void Hash(StartupArgs args)
+    private static void Hash(StartupArgs args)
     {
         var signature = new Signature.Core.Signature();
+
         try
         {
             signature.HashedChunkHandler += ShowHashedChunk;
@@ -42,10 +43,10 @@ public static class Sturtup
         }
     }
 
-    public static void ShowHashedChunk(object? sender, HashChunkEventArgs e)
+    private static void ShowHashedChunk(object? sender, HashChunkEventArgs e)
         => Console.WriteLine($"{e.ChunkId} - {e.HashValue}");
 
-    public static void ShowHelp()
+    private static void ShowHelp()
     {
         Console.WriteLine("\nUsage: Signature.Shell [path]");
         Console.WriteLine("Usage: Signature.Shell [path] [options]");
