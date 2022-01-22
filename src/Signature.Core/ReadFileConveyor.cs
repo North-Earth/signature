@@ -1,26 +1,26 @@
+using Signature.Core.Models;
 using System.Collections.Concurrent;
-using Signature.Service.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
-public class ReadFileConveyor : IDisposable
+internal class ReadFileConveyor : IDisposable
 {
+    private int MaxBufferSize { get; }
+
+    private bool IsReadComplited { get; set; }
+
     public ConcurrentQueue<Chunk> ChunkQueue { get; } = new ConcurrentQueue<Chunk>();
 
     public AutoResetEvent AnyChunkEvent { get; } = new AutoResetEvent(false);
 
     public AutoResetEvent BufferFreeEvent { get; } = new AutoResetEvent(true);
 
-    private int maxBufferSize { get; }
-
-    private bool IsReadComplited { get; set; }
-
     public bool IsComplited => (IsReadComplited && ChunkQueue.IsEmpty);
 
-    public ReadFileConveyor(int bussefSize)
+    public ReadFileConveyor(int bufferSize)
     {
         ChunkQueue.Clear();
-        maxBufferSize = bussefSize;
+        MaxBufferSize = bufferSize;
         IsReadComplited = false;
     }
 
@@ -28,14 +28,11 @@ public class ReadFileConveyor : IDisposable
     {
         if (ChunkQueue.IsEmpty && !IsReadComplited)
         {
-            AnyChunkEvent.Reset();
             return null;
         }
 
         ChunkQueue.TryDequeue(out Chunk? chunk);
 
-        /* TODO Create Custom Exception */
-        //return chunk is null ? throw new Exception() : chunk;
         BufferFreeEvent.Set();
         return chunk;
     }
@@ -44,7 +41,7 @@ public class ReadFileConveyor : IDisposable
     {
         ChunkQueue.Enqueue(chunk);
 
-        if (ChunkQueue.Count >= maxBufferSize)
+        if (ChunkQueue.Count >= MaxBufferSize)
         {
             BufferFreeEvent.Reset();
         }

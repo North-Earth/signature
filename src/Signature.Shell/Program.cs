@@ -1,0 +1,1 @@
+﻿Signature.Shell.Sturtup.Run(args);

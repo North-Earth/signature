@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signature.Shell", "Signature.Shell\Signature.Shell.csproj", "{3752B62B-3B3B-4F31-A415-25489F9AA2DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signature.Shell", "src\Signature.Shell\Signature.Shell.csproj", "{3752B62B-3B3B-4F31-A415-25489F9AA2DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signature.Service", "Signature.Service\Signature.Service.csproj", "{EB36F8B1-1B1E-49E8-A9FE-26CC2BA91B6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Signature.Core", "src\Signature.Core\Signature.Core.csproj", "{EB36F8B1-1B1E-49E8-A9FE-26CC2BA91B6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

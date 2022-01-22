@@ -1,4 +1,4 @@
-namespace Signature.Service.Models;
+namespace Signature.Core.Models;
 
 public class HashChunkEventArgs : EventArgs
 {

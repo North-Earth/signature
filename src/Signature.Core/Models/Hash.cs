@@ -1,6 +1,6 @@
-namespace Signature.Service.Models;
+namespace Signature.Core.Models;
 
-public class Hash
+internal class Hash
 {
     public int Id { get; }
 

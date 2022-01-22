@@ -1,14 +1,14 @@
-using Signature.Service.Models;
+using Signature.Core.Models;
 
-namespace Signature.Service;
+namespace Signature.Core;
 
 internal class ThreadPool : IDisposable
 {
-    internal Thread[] Threads { get; }
+    public Thread[] Threads { get; }
 
-    internal AutoResetEvent[] ResetEvents { get; }
+    public AutoResetEvent[] ResetEvents { get; }
 
-    internal ThreadPool(LaunchConfiguration configuration, ReadFileConveyor conveyor)
+    public ThreadPool(LaunchConfiguration configuration, ReadFileConveyor conveyor)
     {
         Threads = new Thread[configuration.ThreadCount];
         ResetEvents = new AutoResetEvent[configuration.ThreadCount];
@@ -22,7 +22,7 @@ internal class ThreadPool : IDisposable
             {
                 Threads[i] = new Thread(()
                     => Reader.StartReadProcess(configuration.FilePath, configuration.ChunkSize,
-                    conveyor, resetEvent, configuration.ChunkBufferSize))
+                    conveyor, resetEvent))
                 {
                     Name = $"Reader Thread #{i}",
                 };
@@ -39,7 +39,7 @@ internal class ThreadPool : IDisposable
 
     public void Dispose()
     {
-        for (int i = 0; i < ResetEvents.Count(); i++)
+        for (int i = 0; i < ResetEvents.Length; i++)
         {
             ResetEvents[i].Dispose();
         }
