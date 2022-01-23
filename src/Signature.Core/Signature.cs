@@ -1,5 +1,7 @@
 using Signature.Core.Models;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Signature.Core.Tests")]
 namespace Signature.Core;
 
 public class Signature
